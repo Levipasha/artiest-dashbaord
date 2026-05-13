@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://sverx.nanoprofiles.com/api'
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -55,6 +55,84 @@ export const artistAuth = {
         'Content-Type': 'multipart/form-data',
       },
     })
+    return response.data
+  },
+}
+
+export const messagesAPI = {
+  // Fetch all messages involving the current artist
+  getMessages: async () => {
+    const response = await api.get('/messages');
+    return response.data;
+  },
+
+  // Alias for Dashboard.jsx
+  getInbox: async (artistId) => {
+    const response = await api.get(`/messages/for-artist/${artistId}`);
+    return response.data;
+  },
+
+  // Fetch robust grouped conversations
+  getConversations: async () => {
+    const response = await api.get('/messages/conversations');
+    return response.data;
+  },
+
+  // Fetch full history with a partner
+  getConversationHistory: async (partnerId) => {
+    const response = await api.get(`/messages/conversation/${partnerId}`);
+    return response.data;
+  },
+
+  // Send a new message
+  sendMessage: async (data) => {
+    const response = await api.post('/messages', data);
+    return response.data;
+  },
+
+  // Mark a message as read
+  markAsRead: async (id) => {
+    const response = await api.patch(`/messages/${id}/read`);
+    return response.data;
+  },
+
+  // Delete a message
+  deleteMessage: async (id) => {
+    const response = await api.delete(`/messages/${id}`);
+    return response.data;
+  },
+};
+
+export const productsAPI = {
+  // Get products (can filter by artist)
+  getProducts: async (params) => {
+    const response = await api.get('/products', { params })
+    return response.data
+  },
+
+  // Create new product
+  createProduct: async (formData) => {
+    const response = await api.post('/products', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data
+  },
+
+  // Update product
+  updateProduct: async (id, formData) => {
+    const response = await api.put(`/products/${id}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data
+  },
+
+  // Delete product
+  deleteProduct: async (id) => {
+    const response = await api.delete(`/products/${id}`)
     return response.data
   },
 }

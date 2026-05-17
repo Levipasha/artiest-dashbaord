@@ -489,6 +489,38 @@ const Dashboard = () => {
                   />
                 </div>
               </div>
+
+              {/* Username / Public Profile URL */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Public Profile Username
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-sm select-none">@</span>
+                  <input
+                    type="text"
+                    value={formData.username || ''}
+                    onChange={(e) => handleChange('username', e.target.value.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9_]/g, ''))}
+                    placeholder="e.g., udaymicroartist"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono"
+                  />
+                </div>
+                {formData.username ? (
+                  <p className="text-xs text-green-600 mt-1 flex items-center gap-1">
+                    <span>✓ Your public profile URL:</span>
+                    <a
+                      href={`/${formData.username}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="font-bold underline hover:text-green-700"
+                    >
+                      artartist.com/{formData.username}
+                    </a>
+                  </p>
+                ) : (
+                  <p className="text-xs text-gray-400 mt-1">Set a username to get a clean shareable link like <span className="font-mono">artartist.com/yourname</span></p>
+                )}
+              </div>
             </div>
           </div>
 
